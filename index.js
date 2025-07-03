@@ -79,7 +79,7 @@ app.post("/api/auth/login", async (req, res) => {
   const user = await User.findOne({ username });
   if (!user) return res.status(401).json({ error: "Invalid credentials" });
 
-  const isMatch = compare(password, user.password);
+  const isMatch = await compare(password, user.password);
   if (!isMatch) return res.status(401).json({ error: "Invalid credentials" });
 
   const token = sign({ id: user._id, role: user.role }, JWT_SECRET, {
