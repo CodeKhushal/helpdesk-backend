@@ -26,11 +26,14 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-try {
-  await connect(process.env.MONGO_URI);
-  console.log("mongodb connected successfully");
-} catch (error) {
-  console.log(error);
+const connectDB = async () => {
+  try {
+    await connect(process.env.MONGO_URI);
+    console.log("mongodb connected successfully");
+  } catch (error) {
+    console.error("Failed to connect to MongoDB", error);
+    process.exit(1);
+  }
 }
 
 const userSchema = new Schema({
@@ -103,4 +106,7 @@ function auth(req, res, next) {
   }
 }
 
-app.listen(PORT, () => console.log(`Server listen at port ${PORT}`));
+app.listen(PORT, () => {
+    connectDB();
+    console.log(`Server listen at port ${PORT}`)
+});
