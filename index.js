@@ -15,6 +15,7 @@ app.use(json());
 
 const whitelist = [
   "http://localhost:5173",
+  "http://helpdesk-weanalyze.vercel.app",
 ];
 
 const corsOptions = {
